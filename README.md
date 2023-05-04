@@ -11,3 +11,9 @@ pip install -Ur requirements.txt
 ```
 
 Developed pairing with ChatGPT 3.5
+
+## Run
+
+```
+python main.py
+```
