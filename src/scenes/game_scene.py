@@ -51,12 +51,17 @@ class GameScene:
         # handle events such as key presses
         for event in events:
             if event.type == pygame.KEYDOWN:
-                key = event.unicode.lower()  # get lowercase character from event
-                for alphabet in self.alphabets:
-                    if alphabet['char'].lower() == key:
-                        alphabet['remove'] = True
-                        self.score += 1 
-                        self.play_effect_beat(alphabet)
+                if event.key == pygame.K_ESCAPE:
+                    return True
+                else:
+                    key = event.unicode.lower()  # get lowercase character from event
+                    for alphabet in self.alphabets:
+                        if alphabet['char'].lower() == key:
+                            alphabet['remove'] = True
+                            self.score += 1 
+                            self.play_effect_beat(alphabet)
+        
+        return False
 
     def update(self, dt):
         # 在合适的位置展示待下落的字符
@@ -102,7 +107,9 @@ class GameScene:
 
             # handle events
             events = pygame.event.get()
-            self.handle_events(events)
+            is_quit = self.handle_events(events)
+            if is_quit:
+                return 'start_game'
 
             # update game state
             now = pygame.time.get_ticks()
@@ -148,10 +155,9 @@ class GameScene:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        # 返回到游戏主菜单
-                        return 'start_game'
+                elif event.type == pygame.KEYDOWN and (event.key == pygame.K_RETURN or event.key == pygame.K_ESCAPE):
+                    # 返回到游戏主菜单
+                    return 'start_game'
 
             # 展示游戏结束界面
             self.screen.fill((255, 255, 255))

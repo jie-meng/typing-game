@@ -12,9 +12,11 @@ class StartScene:
     def run(self):
         while True:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     pygame.quit()
                     quit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN: 
+                    return 'game'
                 elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                     pos = pygame.mouse.get_pos()
                     if self.start_button_rect.collidepoint(pos):
